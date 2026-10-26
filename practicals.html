@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cryptology Practicals - Sanjay Barathi Dharamraj (MCS.25.16)</title>
+</head>
+<body>
+
+<pre id="guide">
+practical-1: Program to implement password salting and hashing to create secure passwords.
+practical-2: Program to implement Substitution Cipher
+practical-3: Program to implement Vigenère Cipher
+practical-4: Program to implement Affine cipher
+practical-5: Program to demonstrate cryptanalysis (e.g., breaking Caesar or Vigenère Cipher)
+practical-6: Program to implement AES algorithm for file encryption and decryption
+practical-7: Program to implement various block cipher modes
+practical-8: Program to implement Steganography for hiding messages inside the image file.
+practical-9: Program to implement HMAC for signing messages.
+practical-10: Program to implement Sending Secure Messages Over IP Networks
+practical-11: Program to implement RSA encryption/decryption
+practical-12: Program to implement El-Gamal Cryptosystem
+practical-13: Program to implement Elliptic Curve Cryptography
+</pre>
+
+<pre id="practical-1">import hashlib
+import secrets
+
+def hash_password(password):
+    salt = secrets.token_bytes(16)  # Generate a random 16-byte salt
+
+    # Hash the password using PBKDF2-HMAC-SHA256
+    password_hash = hashlib.pbkdf2_hmac(
+        'sha256',
+        password.encode('utf-8'),
+        salt,
+        100_000  # Number of iterations
+    )
+
+    return salt, password_hash
+
+def verify_password(password, stored_salt, stored_hash):
+    new_hash = hashlib.pbkdf2_hmac(
+        'sha256',
+        password.encode('utf-8'),
+        stored_salt,
+        100_000
+    )
+
+    return secrets.compare_digest(new_hash, stored_hash)
+
+password = str(input("Enter a password:"))
+
+salt, hashed_password = hash_password(password)
+print("Salt:", salt.hex())
+print("Hash:", hashed_password.hex())
+
+verify_pass = str(input("Enter a password to verify: "))
+
+if (verify_password(verify_pass, salt, hashed_password)) == True:
+    print("the password matched")
+else:
+    print("the password did not match")
+</pre>
+
+<pre id="practical-2">import string
+import random
+
+def generate_key():
+    alphabet = list(string.ascii_uppercase)
+    shuffled = alphabet.copy()
+    random.shuffle(shuffled)
+
+    # Create encryption and decryption dictionaries
+    encrypt_key = dict(zip(alphabet, shuffled))
+    decrypt_key = {v: k for k, v in encrypt_key.items()}
+
+    return encrypt_key, decrypt_key
+
+def encrypt(message, key):
+    result = ""
+    for char in message:
+        if char.upper() in key:
+            encrypted = key[char.upper()]
+            result += encrypted if char.isupper() else encrypted.lower()
+        else:
+            result += char
+    return result
+
+def decrypt(ciphertext, key):
+    result = ""
+    for char in ciphertext:
+        if char.upper() in key:
+            decrypted = key[char.upper()]
+            result += decrypted if char.isupper() else decrypted.lower()
+        else:
+            result += char
+    return result
+
+encrypt_key, decrypt_key = generate_key()
+message = str(input("Enter your string: "))
+ciphertext = encrypt(message, encrypt_key)
+plaintext = decrypt(ciphertext, decrypt_key)
+
+print("Encryption Key:")
+print(encrypt_key)
+
+print("\nOriginal :", message)
+print("Encrypted:", ciphertext)
+print("Decrypted:", plaintext)
+</pre>
+
+<pre id="practical-3">def generate_key(message, keyword):
+    key = []
+    keyword = keyword.upper()
+    j = 0
+    for char in message:
+        if char.isalpha():
+            key.append(keyword[j % len(keyword)])
+            j += 1
+        else:
+            key.append(char)
+    return "".join(key)
+
+def encrypt(message, keyword):
+    key = generate_key(message, keyword)
+    ciphertext = ""
+    for m, k in zip(message, key):
+        if m.isalpha():
+            shift = ord(k) - ord('A')
+            if m.isupper():
+                encrypted = chr((ord(m) - ord('A') + shift) % 26 + ord('A'))
+            else:
+                encrypted = chr((ord(m) - ord('a') + shift) % 26 + ord('a'))
+            ciphertext += encrypted
+        else:
+            ciphertext += m
+    return ciphertext
+
+def decrypt(ciphertext, keyword):
+    key = generate_key(ciphertext, keyword)
+    plaintext = ""
+    for c, k in zip(ciphertext, key):
+        if c.isalpha():
+            shift = ord(k) - ord('A')
+            if c.isupper():
+                decrypted = chr((ord(c) - ord('A') - shift) % 26 + ord('A'))
+            else:
+                decrypted = chr((ord(c) - ord('a') - shift) % 26 + ord('a'))
+            plaintext += decrypted
+        else:
+            plaintext += c
+
+    return plaintext
+
+message = str(input("Enter your string: "))
+keyword = str(input("Enter your keyword(All Caps): "))
+
+encrypted = encrypt(message, keyword)
+decrypted = decrypt(encrypted, keyword)
+
+print("Original :", message)
+print("Keyword :", keyword)
+print("Encrypted:", encrypted)
+print("Decrypted:", decrypted)
+</pre>
+
+<pre id="practical-4">from math import gcd
+
+def mod_inverse(a, m):
+    for i in range(1, m):
+        if (a * i) % m == 1:
+            return i
+    return None
+
+def encrypt(message, a, b):
+    if gcd(a, 26) != 1:
+        raise ValueError("Key 'a' must be coprime with 26.")
+    ciphertext = ""
+    for char in message:
+        if char.isalpha():
+            if char.isupper():
+                x = ord(char) - ord('A')
+                y = (a * x + b) % 26
+                ciphertext += chr(y + ord('A'))
+            else:
+                x = ord(char) - ord('a')
+                y = (a * x + b) % 26
+                ciphertext += chr(y + ord('a'))
+        else:
+            ciphertext += char
+    return ciphertext
+
+def decrypt(ciphertext, a, b):
+    if gcd(a, 26) != 1:
+        raise ValueError("Key 'a' must be coprime with 26.")
+    a_inv = mod_inverse(a, 26)
+    plaintext = ""
+    for char in ciphertext:
+        if char.isalpha():
+            if char.isupper():
+                y = ord(char) - ord('A')
+                x = (a_inv * (y - b)) % 26
+                plaintext += chr(x + ord('A'))
+            else:
+                y = ord(char) - ord('a')
+                x = (a_inv * (y - b)) % 26
+                plaintext += chr(x + ord('a'))
+        else:
+            plaintext += char
+
+    return plaintext
+
+message = "Affine Cipher"
+a = 5
+b = 8
+
+encrypted = encrypt(message, a, b)
+decrypted = decrypt(encrypted, a, b)
+
+print("Original :", message)
+print("Encrypted:", encrypted)
+print("Decrypted:", decrypted)
+</pre>
+
+<pre id="practical-5">def decrypt_caesar(ciphertext, shift):
+    plaintext = ""
+
+    for char in ciphertext:
+        if char.isalpha():
+            if char.isupper():
+                plaintext += chr((ord(char) - ord('A') - shift) % 26 + ord('A'))
+            else:
+                plaintext += chr((ord(char) - ord('a') - shift) % 26 + ord('a'))
+        else:
+            plaintext += char
+
+    return plaintext
+
+def brute_force_caesar(ciphertext):
+    print("Trying all possible keys:\n")
+
+    for shift in range(26):
+        plaintext = decrypt_caesar(ciphertext, shift)
+        print(f"Key {shift:2d}: {plaintext}")
+
+ciphertext = "Khoor Zruog"
+brute_force_caesar(ciphertext)
+</pre>
+
+<pre id="practical-6"># Run this command first: pip install pycryptodome
+
+from Crypto.Cipher import AES
+from Crypto.Random import get_random_bytes
+from Crypto.Protocol.KDF import PBKDF2
+from Crypto.Util.Padding import pad, unpad
+import os
+
+# Derive a 32-byte AES key from a password
+def generate_key(password, salt):
+    return PBKDF2(password, salt, dkLen=32)
+
+def encrypt_file(input_file, output_file, password):
+    # Generate random salt and IV
+    salt = get_random_bytes(16)
+    iv = get_random_bytes(16)
+
+    # Generate encryption key
+    key = generate_key(password.encode(), salt)
+
+    # Create AES cipher
+    cipher = AES.new(key, AES.MODE_CBC, iv)
+
+    # Read file
+    with open(input_file, "rb") as f:
+        plaintext = f.read()
+
+    # Encrypt
+    ciphertext = cipher.encrypt(pad(plaintext, AES.block_size))
+
+    # Save salt + IV + ciphertext
+    with open(output_file, "wb") as f:
+        f.write(salt)
+        f.write(iv)
+        f.write(ciphertext)
+
+    print("File encrypted successfully.")
+
+def decrypt_file(input_file, output_file, password):
+    with open(input_file, "rb") as f:
+        data = f.read()
+
+    # Extract salt, IV, and ciphertext
+    salt = data[:16]
+    iv = data[16:32]
+    ciphertext = data[32:]
+
+    key = generate_key(password.encode(), salt)  # Generate key
+
+    cipher = AES.new(key, AES.MODE_CBC, iv)  # Create cipher
+
+    # Decrypt
+    plaintext = unpad(cipher.decrypt(ciphertext), AES.block_size)
+
+    # Save decrypted file
+    with open(output_file, "wb") as f:
+        f.write(plaintext)
+
+    print("File decrypted successfully.")
+
+password = "StrongPassword123"
+encrypt_file("sample.txt", "sample.enc", password)
+decrypt_file("sample.enc", "sample_decrypted.txt", password)
+</pre>
+
+<pre id="practical-7">from Crypto.Cipher import AES
+from Crypto.Random import get_random_bytes
+from Crypto.Util.Padding import pad, unpad
+
+# 16-byte key for AES-128
+key = get_random_bytes(16)
+plaintext = b"This is a secret message."
+
+# ECB
+cipher = AES.new(key, AES.MODE_ECB)
+ciphertext = cipher.encrypt(pad(plaintext, AES.block_size))
+
+cipher = AES.new(key, AES.MODE_ECB)
+decrypted = unpad(cipher.decrypt(ciphertext), AES.block_size)
+
+print("ECB")
+print("Encrypted:", ciphertext.hex())
+print("Decrypted:", decrypted.decode())
+print()
+
+# CBC
+iv = get_random_bytes(16)
+
+cipher = AES.new(key, AES.MODE_CBC, iv)
+ciphertext = cipher.encrypt(pad(plaintext, AES.block_size))
+
+cipher = AES.new(key, AES.MODE_CBC, iv)
+decrypted = unpad(cipher.decrypt(ciphertext), AES.block_size)
+
+print("CBC")
+print("Encrypted:", ciphertext.hex())
+print("Decrypted:", decrypted.decode())
+print()
+
+# CFB
+iv = get_random_bytes(16)
+
+cipher = AES.new(key, AES.MODE_CFB, iv)
+ciphertext = cipher.encrypt(plaintext)
+
+cipher = AES.new(key, AES.MODE_CFB, iv)
+decrypted = cipher.decrypt(ciphertext)
+
+print("CFB")
+print("Encrypted:", ciphertext.hex())
+print("Decrypted:", decrypted.decode())
+print()
+
+# OFB
+iv = get_random_bytes(16)
+
+cipher = AES.new(key, AES.MODE_OFB, iv)
+ciphertext = cipher.encrypt(plaintext)
+
+cipher = AES.new(key, AES.MODE_OFB, iv)
+decrypted = cipher.decrypt(ciphertext)
+
+print("OFB")
+print("Encrypted:", ciphertext.hex())
+print("Decrypted:", decrypted.decode())
+print()
+
+# CTR
+cipher = AES.new(key, AES.MODE_CTR)
+ciphertext = cipher.encrypt(plaintext)
+nonce = cipher.nonce
+
+cipher = AES.new(key, AES.MODE_CTR, nonce=nonce)
+decrypted = cipher.decrypt(ciphertext)
+
+print("CTR")
+print("Encrypted:", ciphertext.hex())
+print("Decrypted:", decrypted.decode())
+</pre>
+
+<pre id="practical-8">from PIL import Image
+
+DELIMITER = "1111111111111110"
+
+def message_to_binary(message):
+    """Convert a text message to a binary string."""
+    return ''.join(format(byte, '08b') for byte in message.encode('utf-8'))
+
+def binary_to_message(binary):
+    """Convert a binary string back to text."""
+    data = bytearray()
+
+    for i in range(0, len(binary), 8):
+        byte = binary[i:i + 8]
+        if len(byte) == 8:
+            data.append(int(byte, 2))
+
+    return data.decode('utf-8')
+
+def encode(input_image, output_image, message):
+    """Hide a message inside an image."""
+    image = Image.open(input_image).convert("RGB")
+
+    # Convert message to binary and add an end marker
+    binary_message = message_to_binary(message) + DELIMITER
+
+    # Check whether the image has enough pixels
+    capacity = image.width * image.height * 3
+    if len(binary_message) &gt; capacity:
+        raise ValueError("Message is too large for this image.")
+
+    pixels = list(image.getdata())
+
+    data_index = 0
+    new_pixels = []
+
+    for pixel in pixels:
+        new_pixel = list(pixel)
+
+        for channel in range(3):
+            if data_index &lt; len(binary_message):
+                # Clear the last bit and replace it with message bit
+                new_pixel[channel] = (
+                    new_pixel[channel] &amp; 254
+                ) | int(binary_message[data_index])
+
+                data_index += 1
+
+        new_pixels.append(tuple(new_pixel))
+
+    image.putdata(new_pixels)
+    image.save(output_image, format="PNG")
+
+    print(f"Message successfully hidden in {output_image}")
+
+def decode(input_image):
+    """Extract a hidden message from an image."""
+    image = Image.open(input_image).convert("RGB")
+
+    binary_data = ""
+
+    for pixel in image.getdata():
+        for channel in pixel:
+            binary_data += str(channel &amp; 1)
+
+            # Stop when the delimiter is found
+            if binary_data.endswith(DELIMITER):
+                binary_message = binary_data[:-len(DELIMITER)]
+                return binary_to_message(binary_message)
+
+    raise ValueError("No hidden message found.")
+
+if __name__ == "__main__":
+    print("1. Hide message")
+    print("2. Extract message")
+
+    choice = input("Enter your choice: ")
+
+    if choice == "1":
+        input_image = input("Input image: ")
+        output_image = input("Output image: ")
+        message = input("Message to hide: ")
+
+        encode(input_image, output_image, message)
+
+    elif choice == "2":
+        input_image = input("Image containing hidden message: ")
+
+        try:
+            message = decode(input_image)
+            print("Hidden message:")
+            print(message)
+        except ValueError as e:
+            print(e)
+
+    else:
+        print("Invalid choice.")
+</pre>
+
+<pre id="practical-9">import hmac
+import hashlib
+import secrets
+
+key = secrets.token_bytes(32)
+message = input("Enter your message: ").encode("utf-8")
+
+# Sign
+signature = hmac.new(key, message, hashlib.sha256).hexdigest()
+print("Signature:", signature)
+
+# Verify
+valid = hmac.compare_digest(
+    signature,
+    hmac.new(key, message, hashlib.sha256).hexdigest()
+)
+
+print("Valid:", valid)
+</pre>
+
+<pre id="practical-10"># Install first: pip install cryptography
+# Steps:
+# 1. Run Server.py first in one terminal -> a key is generated -> copy that key
+# 2. Run Client.py in another terminal -> paste the copied key -> server and client connect
+# 3. Start sending messages
+
+# ===================== Server.py =====================
+import socket
+from cryptography.fernet import Fernet
+
+key = Fernet.generate_key()
+cipher = Fernet(key)
+print(f"Key: {key.decode()}")
+
+s = socket.socket()
+s.bind(('127.0.0.1', 8443))
+s.listen(1)
+
+conn, _ = s.accept()
+print("[+] Connected!")
+
+while True:
+    msg = cipher.decrypt(conn.recv(4096)).decode()
+    print(f"Client: {msg}")
+    if msg.lower() == 'exit': break
+    reply = input("Server: ")
+    conn.sendall(cipher.encrypt(reply.encode()))
+
+conn.close()
+s.close()
+
+# ===================== Client.py =====================
+import socket
+from cryptography.fernet import Fernet
+
+key = input("Enter Key: ").encode()
+cipher = Fernet(key)
+
+s = socket.socket()
+s.connect(('127.0.0.1', 8443))
+print("[+] Connected!")
+
+while True:
+    msg = input("Client: ")
+    s.sendall(cipher.encrypt(msg.encode()))
+    if msg.lower() == 'exit': break
+    reply = cipher.decrypt(s.recv(4096)).decode()
+    print(f"Server: {reply}")
+
+s.close()
+</pre>
+
+<pre id="practical-11">import random
+
+def gcd(a, b):
+    return gcd(b, a % b) if b else a
+
+def generate_keys(p, q):
+    n, phi = p * q, (p - 1) * (q - 1)
+    e = next(i for i in range(2, phi) if gcd(i, phi) == 1)
+    d = pow(e, -1, phi)  # Built-in modular inverse (Python 3.8+)
+    return (e, n), (d, n)
+
+# --- Test ---
+p, q = 61, 53
+pub, priv = generate_keys(p, q)
+
+msg = "Hello RSA!"
+cipher = [pow(ord(c), pub[0], pub[1]) for c in msg]
+decrypted = "".join([chr(pow(c, priv[0], priv[1])) for c in cipher])
+
+print(f"Ciphertext: {cipher}")
+print(f"Decrypted: {decrypted}")
+</pre>
+
+<pre id="practical-12">p = 23   # Prime number
+g = 5    # Generator
+x = 6    # Private key
+
+# Public key
+y = pow(g, x, p)
+
+m = 10   # Message
+k = 3    # Random key
+
+# Encryption
+c1 = pow(g, k, p)
+c2 = (m * pow(y, k, p)) % p
+
+# Decryption
+s = pow(c1, x, p)
+message = (c2 * pow(s, -1, p)) % p
+
+print("Public Key:", (p, g, y))
+print("Ciphertext:", (c1, c2))
+print("Decrypted Message:", message)
+</pre>
+
+<pre id="practical-13">p, a = 17, 2
+G = (5, 1)
+
+def add(P, Q):
+    if P is None: return Q
+    x, y = P; X, Y = Q
+    m = ((Y-y) * pow(X-x, -1, p) if P != Q
+         else (3*x*x+a) * pow(2*y, -1, p)) % p
+    return ((m*m-x-X) % p, (m*(x-(m*m-x-X))-y) % p)
+
+def mul(k, P):
+    R = None
+    for _ in range(k):
+        R = add(R, P)
+    return R
+
+a_key, b_key = 5, 7
+A, B = mul(a_key, G), mul(b_key, G)
+
+print("Alice:", A)
+print("Bob:", B)
+print("Shared Key:", mul(a_key, B))
+</pre>
+
+</body>
+</html>
