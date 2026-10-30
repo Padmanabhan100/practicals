@@ -1,609 +1,318 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Data Visualization Practicals - Sanjay Barathi Dharamraj</title>
-<style>
-  :root { color-scheme: light dark; }
-  body { font-family: system-ui, sans-serif; max-width: 1000px; margin: 0 auto; padding: 1rem; }
-  pre { white-space: pre-wrap; word-wrap: break-word; padding: 1rem; border: 1px solid #8884; border-radius: 8px; background: #8881; font-size: 0.9rem; }
-</style>
+<title>Advanced Cloud Computing Practicals - Sanjay Barathi Dharamraj (MCS.25.16)</title>
 </head>
 <body>
 
-<h1>Data Visualization - Practical Journal</h1>
-<p>Sanjay Barathi Dharamraj | MCS.25.16 | MSc CS Part 2 | SIES (Nerul) College of Arts, Science and Commerce (Autonomous) | Guide: Prof. Rajeshri Shinkar | Academic Year 2026 - 2027</p>
-
 <pre id="guide">
-practical-1: Create one dimensional data using series and perform various operations on it.
-practical-2: Create Two-dimensional data with the help of data frames and perform different operations on it.
-practical-3: Write a code to read data from the different file formats like JSON, HTML, XML, and CSV files and check for missing data and outlier values and handle them.
-practical-4: Perform Reshaping of the hierarchical data and pivoting data frame data.
-practical-5: Connecting and extracting with various data resources in Tableau.
-practical-6: Performing calculations and creating parameters in Tableau.
-practical-7: Designing Tableau Dashboards for different displays and devices.
-practical-8: Create a Trend model using data, Analyse-it and use it for forecasting.
-practical-9: Creating Geospatial feature maps in Tableau using Geospatial Data.
-practical-10: Create various reports in Tableau Dashboard.
-practical-11: Create different types of graphs in Tableau.
-practical-12: Create row-level calculations in Tableau.
-practical-13: Create Dashboard and Storytelling using Tableau.
+practical-1: Study and implementation of Infrastructure as a Service
+practical-2: Study and Implementation of storage as a Service
+practical-3: Study and implementation of identity management
+practical-4: Study Cloud Security management
+practical-5: Write a program for web feed.
+practical-6: Study and implementation of Single-Sign-On.
+practical-7: User Management in Cloud
+practical-8: Installing and configuring the required platform for Google App Engine
+practical-9: Hosting a website on google app engine
+practical-10: Creating an application in Dropbox to store data securely. Develop a source code using Dropbox API for updating and retrieving files.
+practical-11: Installing and Configuring Dockers in localhost and running multiple images on a Docker Platform.
+practical-12: Developing an ASP.NET based web application on the Azure platform
 </pre>
 
-<pre id="practical-1">
-# Practical No. 1
-# Aim: Create one dimensional data using series and perform various operations on it.
+<pre id="practical-1">Aim: Study and implementation of Infrastructure as a Service
 
-import numpy as np
-import pandas as pd
-
-Studentcgpa = pd.Series({'Alice':3.5,'Bob':3.8,'Charlie':4.0,'David':3.2,'Eve':3.9})
-print("Series: ", Studentcgpa)
-
-Studentcgpa.name = 'Studentcgpa'
-print("\nSeries name: ", Studentcgpa.name)
-
-min_cgpa = Studentcgpa.min()
-print("\nMinimum cgpa: ", min_cgpa)
-max_cgpa = Studentcgpa.max()
-print("Maximum cgpa: ", max_cgpa)
-avg_cgpa = Studentcgpa.mean()
-print("Average cgpa: ", avg_cgpa)
-
-stat_desc = Studentcgpa.describe()
-print("\nStatistical Description: ", stat_desc)
-
-cgpa_xyz = Studentcgpa['XYZ'] if 'XYZ' in Studentcgpa.index else None
-print(cgpa_xyz)
-
-highest_cgpa_students = Studentcgpa[Studentcgpa == Studentcgpa.max()]
-print("\nHighest cgpa: ", highest_cgpa_students)
-
-below_avg_students = Studentcgpa[Studentcgpa &lt; avg_cgpa]
-print("\nBelow avg students: ", below_avg_students)
-
-Studentcgpa = Studentcgpa + 1
-print("\nIncrease cgpa by 1: ", Studentcgpa)
-
-new_student_list = pd.Series({'Frank':3.7,'Grace':3.6})
-Studentcgpa = pd.concat([Studentcgpa, new_student_list])
-print("\nUpdated students list: ", Studentcgpa)
-
-Studentcgpa.drop('XYZ', errors='ignore', inplace=True)
-print("\nDrop Student 'XYZ': ", Studentcgpa)
-
-sorted_by_name = Studentcgpa.sort_index()
-print("\nSorted by name: ", sorted_by_name)
-
-sorted_by_cgpa = Studentcgpa.sort_values()
-print("\nSorted by cgpa: ", sorted_by_cgpa)
-
-cgpa_rank = Studentcgpa.rank(ascending=False)
-print("\nRank students by cgpa: ", cgpa_rank)
-
-has_unique_index = Studentcgpa.index.is_unique
-print("\ndoes the list have unique names: ", has_unique_index)
-
-unique_cgpa = Studentcgpa.unique()
-print("\nUnique CGPA: ", unique_cgpa)
-
-cgpa_counts = Studentcgpa.value_counts()
-print("\nCGPA counts: ", cgpa_counts)
-
-s1 = pd.Series(np.random.randn(5))
-print("\nS1: ", s1)
-
-s2 = pd.Series(range(1,6), index=s1.index)
-print("\nS2: ", s2)
-
-addition = s1 + s2
-subtraction = s1 - s2
-multiplication = s1 * s2
-division = s1 / s2
-print("\nAddition: ", addition, "\nSubtraction: ", subtraction)
-print("\nMultiplication: ", multiplication, "\nDivision: ", division)
-
-s1_resized = s1.reindex(range(7), method='ffill')  # ffill = forward fill
-print("S1 resized: ", s1_resized)
+Steps:
+1. Download "Oracle VirtualBox" from their website.
+2. Download the .ova file of the Univention ownCloud app for VirtualBox using this link:
+   https://appcenter.software-univention.de/univention-apps/current/owncloud/Univention-App-owncloud-virtualbox.ova
+3. After downloading, open the file. It will directly open the VirtualBox interface. Click "Finish" on the configuration pop-up and accept the Software License Agreement.
+4. The virtual machine will be installed automatically and will appear on the left of the interface.
+5. Before starting the virtual machine, open Settings (top middle of the interface).
+6. Go to the System section, select the Processor tab, set the processor to 2 cores, leave the rest as it is and click "OK".
+7. Start the virtual machine.
+8. On the next window it asks for your "city". Do NOT enter any city name, just click "NEXT" (most important step - otherwise it will not read keyboard entries).
+9. Click "NEXT" on the "Localization settings" window.
+10. The next window fetches the IP Address, Net Mask and Gateway from DHCP. Don't change anything and click "NEXT".
+    If it cannot fetch the IP address automatically, set it manually: use "ipconfig" in the cmd prompt, then enter an IPv4 address that is not currently in use in your network, keep the gateway address as shown in cmd, and keep the net mask the same. Click "NEXT".
+11. On "Domain setup" keep "Manage users and permissions directly on this system (Recommended)" and click "NEXT".
+12. On "Account information" enter your name (organisation name), an email address and a password. Remember the password, it is needed in later steps.
+13. The next window shows the Fully Qualified Domain Name and LDAP base. Click "NEXT".
+14. The configuration settings for ownCloud are shown. Uncheck "Update system after setup", scroll down a little and click "CONFIGURE SYSTEM".
+15. Setup takes some time. When it is done, click "FINISH", then press any key on the next window.
+16. The virtual machine restarts automatically.
+17. Once it has booted, open a web browser and enter the IP address you configured in the "Domain and Network Configuration" step.
+18. It asks for an Email ID to send the license to. Enter your Email ID and click "REQUEST ACTIVATION".
+19. Check your mailbox, download the license received from ownCloud, go back to ownCloud, click "UPLOAD LICENSE FILE", select the license file and click "Open".
+20. On the next page ("Activation successful!") click "FINISH".
+21. ownCloud is now installed. Log in with "Administrator" as the user name and the password set during setup, then click "LOGIN".
+22. The ownCloud Portal opens. ownCloud installation is complete.
 </pre>
 
-<pre id="practical-2">
-# Practical No. 2
-# Aim: Create 2-dimensional data with the help of data frames and perform different operations on it.
+<pre id="practical-2">Aim: Study and Implementation of storage as a Service
 
-import pandas as pd
+Theory:
+- Storage as a service (SaaS) is a business model in which a company leases or rents its storage infrastructure to another company or individuals to store data. Small companies and individuals often find this to be a convenient methodology for managing backups, and it provides cost savings in personnel, hardware and physical space.
+- A company providing SaaS may be called a storage service provider (SSP). Storage as a service can also be referred to as hosted storage.
+- Storage as a Service is a business model in which a large company rents space in their storage infrastructure to a smaller company or individual.
+- In the enterprise, SaaS vendors are targeting secondary storage applications by promoting SaaS as a convenient way to manage backups. The key advantage to SaaS in the enterprise is in cost savings - in personnel, in hardware and in physical storage space.
+- For instance, instead of maintaining a large tape library and arranging to vault (store) tapes offsite, a network administrator that used SaaS for backups could specify what data on the network should be backed up and how often it should be backed up.
 
-data = {
-    'Student': ['Alice', 'Bob', 'Charlie', 'David', 'Eve'],
-    'Course1': [78, 85, 90, 60, 70],
-    'Course2': [80, 75, 88, 92, 65],
-    'Course3': [70, 65, 75, 80, 85],
-    'Course4': [85, 90, 92, 78, 80]
+Procedure:
+Step 1: Login to your Gmail account and go to Google Drive.
+Step 2: Right click on My Drive.
+Step 3: Right click on My Drive and select More -&gt; Google Forms. From here we can create Google Forms. Type the question or anything you want.
+Step 4: Select My Drive, right click on it, create a Google Document and save the document.
+Step 5: Select My Drive and click on create Slide.
+</pre>
+
+<pre id="practical-3">Aim: Study and implementation of Identity Management
+
+Theory:
+- Identity management (ID management) is the organizational process for identifying, authenticating and authorizing individuals or groups of people to have access to applications, systems or networks by associating user rights and restrictions with established identities. The managed identities can also refer to software processes that need access to organizational systems.
+- Identity management includes authenticating users and determining whether they're allowed access to particular systems. ID management works hand-in-hand with identity access management systems. Identity management is focused on authentication, while access management is aimed at authorization.
+- ID management determines whether a user has access to systems, but also sets the level of access and permissions a user has on a particular system. For instance, a user may be authorized to access a system but be restricted from some of its components.
+- The main goal of identity management is to ensure that only authenticated users are granted access to the specific applications, systems or IT environments for which they are authorized. This includes control over user provisioning and the process of onboarding new users such as employees, partners, clients and other stakeholders. Identity management also includes control over the process of authorizing system or network permissions for existing users and the offboarding of users who are no longer authorized to access organization systems.
+
+Procedure:
+Step 1: Open https://aws.amazon.com/
+Step 2: Go to My Account -&gt; AWS Management Console.
+Step 3: Click on Create a new AWS account.
+Step 4: Fill in all the details and click on Continue.
+Step 5: Fill in your contact number and home address and click on Create account and continue.
+Step 6: Most crucial step - AWS will ask for credit card / debit card details. Fill them in, then close the browser.
+Step 7: Open https://aws.amazon.com/ again.
+Step 8: Go to My Account -&gt; AWS Management Console. Enter your ID and click Next, then enter the password and click Sign in. You will get the AWS Console Home screen.
+Step 9: Go to My Security Credentials.
+Step 10: Now click on Users.
+Step 11: Click on Create user.
+Step 12: Provide the user name, tick "Provide user access to the AWS Management Console", choose "I want to create an IAM user", choose "Custom password" and enter the password for the new user, then click Next (Set permissions).
+Step 13: Click on Create group.
+Step 14: Fill in the user group name (e.g. Anuj_Group), select the permission policies and click Create user group.
+Step 15: Click Next, leave Tags blank, click Next again, leave the review as it is and click Create user.
+Step 16: Click Close. Now click on My Account and COPY the Account ID.
+Step 17: Log out of the admin account and try to log in as the newly created user: go to My Account -&gt; AWS Management Console, choose IAM user sign in, provide the Account ID, username and password and click Sign in.
+Step 18: It asks you to change the password that was set by the administrator. Enter the old password, new password, retype the new password and click Confirm password change.
+Step 19: You will be redirected to the home screen of the AWS Console.
+</pre>
+
+<pre id="practical-4">Aim: Study Cloud Security management
+
+Steps:
+1. Open https://aws.amazon.com/console/
+2. Go to "My Account" &gt; "AWS Management Console".
+3. Log in to your user's account and click "Sign In".
+4. Once logged in, go to "My Security Credentials".
+5. Scroll down to "Multi-factor authentication (MFA)" and click on "Assign MFA device".
+6. Enter a device name, select "Authenticator app" (virtual MFA device) and click "Next/Continue".
+   Concept: a third-party app generates a one-time password (OTP) which helps us authenticate ourselves while logging in. It adds a security layer to the account.
+7. Download an authenticator app such as "2FAS Authenticator" on your mobile. Click "Show QR code" on the AWS page to display the QR code.
+8. Open the app, click "Continue", click the "+" button and choose "Scan QR code" to scan the code.
+9. Enter two consecutive OTPs (MFA Code 1 and, after 30 seconds, MFA Code 2) received on the app and click "Add MFA" / "Assign MFA". Click "Close". The message "MFA device assigned" is shown.
+10. Log out from the account (Sign out).
+11. Log in again. It will ask for the MFA code. A new code is generated every 30 seconds - enter the valid MFA code and click "Sign in" to log in.
+</pre>
+
+<pre id="practical-5">&lt;?xml version="1.0" encoding="UTF-8" ?&gt;
+&lt;rss version="2.0"&gt;
+&lt;channel&gt;
+&lt;title&gt;ITVoyagers&lt;/title&gt;
+&lt;link&gt;http://itvoyagers.in&lt;/link&gt;
+&lt;description&gt;ITVoyagers is an educational blog for information technology and computer science program. We have started this blog with a goal of meeting the requirements of learners to cope with the changing technology. We are aiming to expand its scope in all sections of IT.&lt;/description&gt;
+&lt;item&gt;
+&lt;title&gt;Cloud Computing&lt;/title&gt;
+&lt;link&gt;http://itvoyagers.in/wp/cloud-computing/&lt;/link&gt;
+&lt;description&gt;Cloud Computing Practical For TYCS&lt;/description&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;title&gt;Business Intelligence&lt;/title&gt;
+&lt;link&gt;http://itvoyagers.in/wp/advance-topics/business-intelligence/&lt;/link&gt;
+&lt;description&gt;Business Intelligence Practical for TYIT&lt;/description&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;title&gt;Geographical Information System&lt;/title&gt;
+&lt;link&gt;http://itvoyagers.in/wp/advance-topics/geographical-information-system-gis/&lt;/link&gt;
+&lt;description&gt;Geographical Information System Practical for TYIT&lt;/description&gt;
+&lt;/item&gt;
+&lt;/channel&gt;
+&lt;/rss&gt;
+</pre>
+
+<pre id="practical-6">Aim: Study and implementation of Single-Sign-On
+
+Steps:
+1. Go to https://auth0.com/learn/how-to-implement-single-sign-on/
+2. Click on "TRY AUTH0 FOR FREE".
+3. Enter ID and password for your account and click on "SIGN UP" (or sign in with Google).
+4. Enter the "TENANT DOMAIN", select the "REGION" for your account and click "NEXT".
+5. In the "ACCOUNT TYPE" panel select "Personal", then select "Non Developer" in "ROLE".
+6. Select "Just playing around" in the "PROJECT" panel and click "CREATE ACCOUNT". You will be redirected to your Dashboard.
+7. Go to "Authentication" &gt; "Social" (Connections &gt; Social). You will see many social connections; we are going to try Google (google-oauth2).
+8. Click on the "Try Connection" ("TRY") button. You will be redirected to Google Accounts.
+9. Enter your Email ID and password and submit.
+10. If you get the "It Works!" window showing the user profile the application will receive, the practical is completed successfully.
+</pre>
+
+<pre id="practical-7">Aim: User Management in Cloud
+
+Theory:
+- User management describes the ability for administrators to manage user access to various IT resources like systems, devices, applications, storage systems, networks, SaaS services, and more.
+- User management is a core part to any directory service and is a basic security essential for any organization.
+- User management enables admins to control user access and on-board and off-board users to and from IT resources.
+- Subsequently a directory service will then authenticate, authorize, and audit user access to IT resources based on what the IT admin had dictated.
+- Traditionally, user management has been grounded with on-prem servers, databases, and closed virtual private networks (VPN). However, recent trends are seeing a shift towards cloud-based identity and access management (IAM), granting administrators even greater control over digital assets.
+
+Procedure:
+Step 1: Continue from the part where you finished implementing Practical 1 (ownCloud portal, logged in as Administrator).
+Step 2: Scroll downwards and click on "Users".
+Step 3: Click on "+ ADD". Fill in all the details (first name, last name, user name, password) and click on "CREATE USER".
+Step 4: The user is created successfully (here another user named 'Developing' was created after creating the user 'Tester').
+Step 5: Open the "Groups" module from the portal.
+Step 6: Click on "+ ADD" (Add Group), give the group name (e.g. Testing_Team) and a description, and click on "CREATE GROUP".
+Step 7: The group is created successfully and appears in the list of groups.
+</pre>
+
+<pre id="practical-8">Aim: Installing and configuring the required platform for Google App Engine
+
+Steps:
+Step 1: Create your account on Google Cloud.
+Step 2: Create a project and insert the region.
+Step 3: Download Python.
+Step 4: Go to the page "Install the gcloud CLI | Google Cloud".
+Step 5: Download the Google Cloud CLI installer. (Installed at C:\Users\&lt;user&gt;\AppData\Local\Google\Cloud SDK)
+Step 6: Follow a Google App Engine tutorial video (Edureka - "Google Cloud App Engine | Google App Engine Tutorial") to perform the practical.
+Step 7: Go to Google Cloud and select Console.
+Step 8: Select your project or create a new project.
+Step 9: Set the location.
+Step 10: Search "App Engine" in the search bar.
+Step 11: Open App Engine and follow the Cloud Shell steps.
+Step 12: Follow the document "App Engine: Qwik Start - Python | Google Cloud Skills Boost".
+Step 13: Click on the Web preview icon to see the output.
+Step 14: You will see the output ("Hello World!").
+Step 15: If you want to make any changes in the code, click "Open Editor" and go to the respective file (python-docs-samples &gt; appengine &gt; flexible &gt; hello_world &gt; main.py).
+
+Code (main.py of the hello_world sample):
+# [START gae_flex_quickstart]
+from flask import Flask
+
+app = Flask(__name__)
+
+
+@app.route('/')
+def hello():
+    """Return a friendly HTTP greeting."""
+    return 'Hello World!'
+
+
+if __name__ == '__main__':
+    # This is used when running locally only. When deploying to Google App
+    # Engine, a webserver process such as Gunicorn will serve the app.
+    app.run(host='127.0.0.1', port=8080, debug=True)
+# [END gae_flex_quickstart]
+</pre>
+
+<pre id="practical-9">Aim: Hosting a static website on Google App Engine (Firebase Hosting)
+
+Procedure:
+Step 1: Sign up with your Gmail account on Google's Firebase and create a project in Firebase.
+Step 2: You will be forwarded to the Project Overview page of your project.
+Step 3: Go to the cmd prompt and run:
+    npm install -g firebase-tools
+Step 4: Log in to Firebase from the cmd prompt:
+    firebase login
+    (Answer the prompts; after authentication it shows "Success! Logged in as &lt;your gmail&gt;".)
+Step 5: Go to the desktop and create a new folder.
+Step 6: Open the cmd prompt in the newly created folder and run:
+    firebase init hosting
+    and choose the options as prompted:
+      - Please select an option: Use an existing project
+      - Select a default Firebase project for this directory: &lt;your project&gt;
+      - What do you want to use as your public directory? public
+      - Configure as a single-page app (rewrite all urls to /index.html)? Yes
+      - Set up automatic builds and deploys with GitHub? No
+Step 7: Go to the newly created folder; you will see these files/folders added: .firebase, public, .firebaserc, firebase.json.
+Step 8: Create an index.html file with simple HTML code that displays "hello world".
+Step 9: Paste the same file in the public folder (if there is already an index.html file inside, replace it with the one you created).
+Step 10: Go to the cmd prompt and run:
+    firebase deploy
+Step 11: After deploying, click on the link mentioned in "Hosting URL" (e.g. https://practical-574e7.web.app). The page shows "hello world".
+Step 12: To disable the website after deploying, run:
+    firebase hosting:disable
+</pre>
+
+<pre id="practical-10"># Setup (do this first):
+# 1. Open the Dropbox App Console and create a new app (Scoped access, Full Dropbox).
+# 2. In Permissions enable files.content.read and files.content.write, then click Submit.
+# 3. Generate the access token and paste it into ACCESS_TOKEN below.
+# 4. Install the library: pip install dropbox
+# 5. Create a text file named test.txt next to this script.
+
+import dropbox
+import os
+
+ACCESS_TOKEN = "YOUR ACCESS_TOKEN"
+
+dbx = dropbox.Dropbox(ACCESS_TOKEN)
+
+def upload_file(local_path, dropbox_path):
+    with open(local_path, "rb") as f:
+        dbx.files_upload(f.read(), dropbox_path, mode=dropbox.files.WriteMode("overwrite"))
+        print(f"Uploaded '{local_path}' to {dropbox_path}")
+
+def download_file(dropbox_path, local_path):
+    metadata, res = dbx.files_download(dropbox_path)
+    with open(local_path, "wb") as f:
+        f.write(res.content)
+    print(f"Downloaded '{dropbox_path}' to '{local_path}'")
+
+if __name__ == "__main__":
+    upload_file("test.txt", "/test.txt")
+    download_file("/test.txt", "download.txt")
+</pre>
+
+<pre id="practical-11">Aim: Installing and Configuring Dockers in localhost and running multiple images on a Docker Platform.
+
+Steps:
+1. Open Docker.com and create your account by signing in.
+2. Download Docker for Windows and install it.
+3. Open the command prompt and verify the installation with:
+    docker version
+   (It shows the Client and Server/Engine details, e.g. Docker Desktop 4.40.0, Engine 28.0.4.)
+4. Pull the python image using:
+    docker pull python
+   (Output: "Using default tag: latest ... Status: Downloaded newer image for python:latest")
+</pre>
+
+<pre id="practical-12">Aim: Developing an ASP.NET based web application on the Azure platform
+
+Steps:
+1. Download the ngrok app from the Microsoft Store.
+2. Go to your user's Desktop directory and make sure VS Code and .NET are installed (verify with: dotnet --version).
+3. In the cmd prompt run:
+    cd C:\Users\DELL\Desktop
+    dotnet new webapp -n MyAspNetApp
+    cd MyAspNetApp
+    code .
+    dotnet restore
+4. Go to the MyAspNetApp folder and customize your HTML and CSS code in VS Code (Pages/Index.cshtml, wwwroot/css/site.css).
+5. Once the code has been configured, go to the cmd prompt (inside the MyAspNetApp folder) and run:
+    dotnet run
+6. Once you see the output "Now listening on: http://localhost:5062", open that link in a web browser. You will see the output of your website.
+
+Code (Pages/Index.cshtml):
+@page
+@model MyAspNetApp.Pages.IndexModel
+
+@{
+    ViewData["Title"] = "Home Page";
 }
-df = pd.DataFrame(data)
-print(df)
 
-course2_marks = df['Course2']
-print("\nCourse 2 marks:\n", course2_marks)
+&lt;header&gt;
+    &lt;h1&gt;Welcome to My ASP.NET web based Core App&lt;/h1&gt;
+&lt;/header&gt;
 
-xyz_marks = df[df['Student'] == 'xyz']
-print("\nXYZ marks:\n", xyz_marks)
-
-alice_course1_course3 = df[df['Student'] == 'Alice'][['Course1', 'Course3']]
-print("\nAlice marks for Course1 &amp; Course3:\n", alice_course1_course3)
-
-df['Total'] = df[['Course1', 'Course2', 'Course3', 'Course4']].sum(axis=1)
-df['Percentage'] = (df['Total'] / 4).round(2)
-print("\n", df)
-
-pass_course1 = df[df['Course1'] &gt; 50]['Student']
-print("\nStudents with &gt;50 in Course1:\n", pass_course1)
-
-def pass_fail(percentage):
-    return 'Pass' if percentage &gt;= 50 else 'Fail'
-
-df['Result'] = df['Percentage'].apply(pass_fail)
-coursewise_marks = df.set_index('Student').drop(
-    ['Total', 'Percentage', 'Result'], axis=1
-)
-print("\nCoursewise Marks:\n", coursewise_marks)
-
-df.drop('Percentage', axis=1, inplace=True)
-
-project_marks = pd.DataFrame({
-    'Student': ['Alice', 'Bob', 'Charlie', 'David', 'Eve'],
-    'Project_Marks': [90, 85, 88, 75, 80]
-})
-df = pd.merge(df, project_marks, on='Student')
-
-sorted_students = df.sort_values(by='Total', ascending=False)
-print("\nSorted by Total:\n", sorted_students)
-
-df['Rank'] = df['Total'].rank(method='dense', ascending=False).astype(int)
-print("\nWith Rank:\n", df)
-
-coursewise_total = df[['Course1', 'Course2', 'Course3', 'Course4']].sum()
-coursewise_avg = df[['Course1', 'Course2', 'Course3', 'Course4']].mean()
-print("\nCoursewise Total:\n", coursewise_total)
-print("\nCoursewise Average:\n", coursewise_avg)
-</pre>
-
-<pre id="practical-3">
-# Practical No. 3
-# Aim: Write a code to read data from different file formats like HTML, CSV, JSON, XML
-#      and check for missing data and outliers and handling them.
-
-import pandas as pd
-
-def read_data(file_path, file_format):
-    if file_format.lower() == 'csv':
-        df = pd.read_csv(file_path)
-    elif file_format.lower() == 'xml':
-        df = pd.read_xml(file_path)
-    elif file_format.lower() == 'html':
-        df = pd.read_html(file_path)[0]
-    elif file_format.lower() == 'json':
-        df = pd.read_json(file_path)
-    else:
-        raise ValueError("Unsupported file format. Please choose from json, xml, html, csv.")
-    return df
-
-def handle_missing_data(df):
-    missing_values = df.isnull().sum()
-    if missing_values.sum() &gt; 0:
-        print("Missing values found.")
-        print(missing_values)
-        # fill the missing value with mean
-        numeric_cols = df.select_dtypes(include="number").columns
-        df[numeric_cols] = df[numeric_cols].fillna(df[numeric_cols].mean())
-    else:
-        print("No missing values found.")
-    return df
-
-def handle_outliers(df):
-    numeric_cols = df.select_dtypes(include="number").columns
-    for col in numeric_cols:
-        Q1 = df[col].quantile(0.25)
-        Q3 = df[col].quantile(0.75)
-        IQR = Q3 - Q1
-        lower = Q1 - 1.5 * IQR
-        upper = Q3 + 1.5 * IQR
-        df = df[(df[col] &gt;= lower) &amp; (df[col] &lt;= upper)]
-    if df.empty:
-        print("Warning: All rows were removed as outliers.")
-    return df
-
-file_path = 'Iris_Data.csv'
-file_format = 'csv'
-
-data = read_data(file_path, file_format)
-print("\nBefore performing operations:\n", data)
-
-handle_missing_data(data)
-print("\nAfter handling missing values:\n", data)
-
-data = handle_outliers(data)
-print("\nAfter handling outliers:\n", data)
-</pre>
-
-<pre id="practical-4">
-# Practical No. 4
-# Aim: Perform Reshaping of the hierarchical data and pivoting data frame data.
-
-import pandas as pd
-
-data = {
-    ('A', 'a'): [1, 2, 3],
-    ('A', 'b'): [4, 5, 6],
-    ('B', 'a'): [7, 8, 9],
-    ('B', 'b'): [10, 11, 12]
-}
-df = pd.DataFrame(data, index=['x', 'y', 'z'])
-
-pivot_data = {
-    'Date': ['2022-01-01', '2022-01-02', '2022-01-03', '2022-01-01', '2022-01-02', '2022-01-03'],
-    'Category': ['A', 'A', 'A', 'B', 'B', 'B'],
-    'Value': [10, 20, 30, 40, 50, 60]
-}
-pivot_df = pd.DataFrame(pivot_data)
-
-# Reshaping hierarchical data
-stacked_df = df.stack(future_stack=True)   # Stack
-unstacked_df = stacked_df.unstack()        # Unstack
-
-# Pivoting a DataFrame
-pivoted_df = pivot_df.pivot(index='Date', columns='Category', values='Value')
-
-print("Original DataFrame:\n")
-print(df)
-print("\nStacked DataFrame:\n")
-print(stacked_df)
-print("\nUnstacked DataFrame:\n")
-print(unstacked_df)
-print("\nPivoted DataFrame:\n")
-print(pivoted_df)
-</pre>
-
-<pre id="practical-5">
-Practical No. 5
-Aim: Connecting and extracting with various data resources in Tableau.
-(No code - Tableau steps)
-
-=== Working with Text file ===
-1. Open Tableau &gt; On the left hand side &gt; under "To a File" &gt; click on Text file.
-2. After clicking on the option &gt; select a text file with content in it &gt; now you will see a display
-   where you can analyze the content.
-
-=== Working with Excel File ===
-1. Open Tableau &gt; on the left hand side &gt; under the "To a File" &gt; select "Microsoft Excel".
-2. Select an Excel file (e.g. superstore.xlsx) &gt; click on Open &gt; a window will be displayed.
-   Now you can analyze the content of the file.
-
-=== Working with SQL / Cloud source (Google Drive connector) ===
-1. Open Tableau &gt; Click on 'More' &gt; Click on 'Google Drive'.
-2. Allow the asked permissions &gt; sign in to your Google account.
-3. Click on 'Continue' &gt; browse My Drive / Shared with me / Shared drives and choose a file
-   (e.g. california_housing_test.csv).
-4. Select any supported file e.g. csv &gt; click on 'Connect' &gt; you can now analyze the content.
-</pre>
-
-<pre id="practical-6">
-Practical No. 6
-Aim: Performing calculations and creating parameter in Tableau.
-(No code - Tableau steps)
-
-CSV file: Vacation Rentals.csv
-(GitHub: PacktPublishing/Learning-Tableau-2020 &gt; Chapter 04 &gt; Vacation Rentals.csv)
-
-=== 1. Row level calculations ===
-Steps:
-1. Create Calculated fields (on the right side of data pane &gt; drop down arrow) named:
-   Room     -&gt; SPLIT([Rental Property], "-", 1)
-   Building -&gt; SPLIT([Rental Property], "-", 2)
-2. Double click on Vacation Rentals.csv &gt; Click on the chart &gt; View data &gt; Full data.
-   The calculation of Room and Building will be visible on the view.
-
-=== 2. Aggregate level calculations ===
-Steps:
-1. Create a Calculated field named:
-   Discount% : SUM([Discount]) / SUM([Rent])
-2. Place First and Last field in Columns and Discount% in Rows.
-   (Example result: Dwight Pentecost shows Discount% = 0.2000, i.e. 20%.)
-
-=== 3. Level of detail (LOD) calculations ===
-Syntax pattern:
-   {FIXED|INCLUDE|EXCLUDE [Dim 1],[Dim 2] : AGG([Row-Level])}
- - FIXED, INCLUDE or EXCLUDE is a keyword that indicates the type of LOD calculation.
- - Dim 1, Dim 2 are a comma-separated list of dimension fields that define the level of detail
-   at which the calculation will be performed. You may use any number of dimensions.
- - AGG is the aggregate function you wish to perform (such as SUM, AVG, MIN, and MAX).
-   Row-Level is the row-level field or row-level calculation that will be aggregated as
-   specified by the aggregation you choose.
-Steps:
-1. Create a Calculated Field as:
-   Average Rent(exclude Room) -&gt; {EXCLUDE [Room] : AVG(Rent)}
-2. Place Measure Names in Columns and Building and Room in Rows.
-3. Put Measure Values on Marks (Text) and remove all values except AVG(Rent) and
-   Average Rent(exclude Room).
-
-=== 4. Table calculations ===
-Steps:
- - Add data to Columns and Rows &gt; right click on any field in Rows &gt; select "Quick Table Calculation".
- - Select the option required (Running Total, Difference, Percent Difference, Percent of Total,
-   Rank, Percentile, Moving Average, YTD Total, Compound Growth Rate, Year Over Year Growth,
-   YTD Growth) and the selected option will be applied on the visual.
-
-=== Parameters ===
-Creating a Parameter - there are multiple ways in Tableau:
- - Use the drop-down menu next to Dimensions in the data pane and select Create Parameter.
- - Right-click an empty area in the data pane and select Create Parameter.
- - Use the drop-down menu on a field, set, or parameter in the data pane and select Create Parameter...
-
-Create Parameter dialog fields: Name, Properties (Data type, Display format, Current value,
-Value when workbook opens), Allowable values (All / List / Range).
-
- - When the parameter is created, it appears in the data pane under the Parameters section.
-   The drop-down menu for a parameter reveals an option, Show Parameter Control, which adds
-   the parameter control to the view.
- - The parameter control can be shown as a single value list (e.g. "Select an Option":
-   First Option / Second Option / Third Option).
- - This control can be shown on any sheet or dashboard and allows the end user to select a
-   single value. When the value is changed, any calculations, filters, sets, or bins that use
-   the parameter will be re-evaluated, and any views that are affected will be redrawn.
-</pre>
-
-<pre id="practical-7">
-Practical No. 7
-Aim: Designing Tableau dashboards for different displays and devices.
-(No code - Tableau steps)
-
-Steps:
-1. Create some sheets with some data and name them (e.g. Sales by category, Sales by region,
-   Sales by Sub-category).
-2. Create a dashboard and place the created sheets on it.
-3. Change the Resolution (Size) according to requirement.
-4. From the left top side under the Dashboard pane, you can change the view of Desktop and Mobile
-   (Device Preview &gt; Device type: Default / Phone).
-
-For Desktop view:
- - Device type = Default; Size e.g. min 420x560 - max 1650x8..; all three sheets are laid out
-   side by side.
-
-For Mobile view:
- - Device type = Phone; Size - Phone: Fit width, Height 1100 px; Layout - Phone: Custom;
-   the sheets (e.g. Sales by region, Sales by category) are stacked vertically.
-</pre>
-
-<pre id="practical-8">
-Practical No. 8
-Aim: Create a Trend model using data, analyze it and use it for forecasting.
-(No code - Tableau steps)
-
-Steps:
-1. Place some data fields like Profit, Date, etc. in Columns and Rows and some in Filters
-   (e.g. Columns: QUARTER(Order Date); Rows: SUM(Profit); Filters: Category, Product, Sub-Category).
-2. Then go to Analytics panel &gt; Drag and drop Trend Line on the chart and Forecast as well.
-   (The chart "Profit Trend" shows the quarterly profit line, a dashed trend line, and a shaded
-   forecast band extending past 2017 Q4.)
-</pre>
-
-<pre id="practical-9">
-Practical No. 9
-Aim: Create Geospatial feature maps in Tableau using Geospatial Data.
-(No code - Tableau steps)
-
- - Geographic visualization is incredibly valuable when you need to understand where things
-   happen and whether there are any spatial relationships within the data.
- - Tableau offers three main types of geographic visualization: Filled maps, Symbol maps, Density maps.
-
-=== Filled Maps ===
-Filled maps fill areas such as countries, states, counties, or ZIP codes to show a location.
-The color that fills the area can be used to encode values, most often of aggregated measures
-but sometimes also dimensions.
-Goal: understand sales for Superstore and see whether there are any patterns geographically.
- - Create a new sheet "Sales by State".
- - Double-click the State field in the data pane. Tableau automatically creates a geographic
-   visualization using the Latitude (generated), Longitude (generated), and State fields.
- - Drag the Sales field from the data pane and drop it on the Color shelf on the Marks card.
- - If the colors are not shown, check for the error in the bottom-right side of the map.
- - If any error like "49 unknown" occurs, click on it &gt; Edit &gt; change the country to United States.
- - Based on the fields and shelves used, Tableau switches the automatic mark type to Map.
-
-=== Symbol Maps ===
-In symbol maps, marks on the map are not drawn as filled regions; rather, marks are shapes or
-symbols placed at specific geographic locations. The size, color, and shape may also be used to
-encode additional dimensions and measures.
-Goal: create a symbol map to show sales by postal code for the Superstore dataset.
-Steps:
- - Create a new sheet "Sales by postal code" (open Superstore sales dataset.csv).
- - Double-click Postal Code under Dimensions. Tableau automatically adds Postal Code to the
-   Detail of the Marks card and Longitude (generated) and Latitude (generated) to Columns and Rows.
- - The mark type is set to a circle by default, and a single circle is drawn for each postal code
-   at the correct latitude and longitude.
- - Drag Sales from Measures to the Size shelf on the Marks card. Each circle is sized according
-   to the sum of sales for that postal code.
- - Drag Profit from Measures to the Color shelf on the Marks card. This encodes the mark color
-   to correspond to the sum of profit (Edit Colors SUM(Profit): Orange-Blue Diverging palette,
-   Stepped Color 6 steps, Center 0).
- - Do some fine-tuned adjustments to the size and color by clicking on respective marks.
- - If any error like "49 unknown" occurs, click on it &gt; Edit &gt; change the country to United States.
-
-=== Density Maps ===
-Density maps show the spread and concentration of values within a geographic area. Instead of
-individual points or symbols, the marks blend together, showing intensity in areas with a high
-concentration.
-Goal: understand the geographic concentration of orders.
- - Navigate to the "Density of Orders" sheet.
- - Double-click the Postal Code field in the data pane. Just as before, Tableau automatically
-   creates a symbol map geographic visualization using the Latitude (generated),
-   Longitude (generated), and State fields.
- - Using the drop-down menu on the Marks card, change the mark type to Density. The individual
-   circles now blend together showing concentrations.
- - This density map displays a high concentration of orders from the East Coast.
-</pre>
-
-<pre id="practical-10">
-Practical No. 10
-Aim: Create various reports in Tableau dashboard.
-(No code - Tableau steps)
-
-=== Report 1: Sales by category and sub-category ===
-Steps:
-1. Open a new sheet and name it Sales by Category.
-2. Drag Category and Sub-Category into Rows.
-3. Drag Sales into Columns.
-4. Drag Profit into Color on the Marks card.
-5. Sort Sales Ascending.
-Results:
- - Horizontal bar chart showing sales for each sub-category.
- - Color shows which sub-categories are most profitable.
-
-=== Report 2: Top 10 Customers by Profit ===
-Steps:
-1. Open a new sheet and name it Top Customers.
-2. Drag Customer Name into Rows.
-3. Drag Profit into Columns.
-4. Filter Customer Name &gt; Top &gt; By Profit &gt; Top 10.
-5. Drag Sales &gt; Label on the Marks card to show sales alongside profit.
-Result:
- - Horizontal bar chart of the 10 most profitable customers.
- - Bars sized by profit, labels show sales for context.
-</pre>
-
-<pre id="practical-11">
-Practical No. 11
-Aim: Create different types of graphs in Tableau.
-(No code - Tableau steps; screenshots from the Superstore dataset)
-
-1. Pie Chart
-   - Marks type: Pie; Color: Customer Name; Size: SUM(Profit); Angle: SUM(Sales);
-     Filters: Customer Name.
-
-2. Bar chart (Horizontal)
-   - Columns: SUM(Sales); Rows: Sub-Category (sorted descending).
-   - Tooltip example: Sub-Category: Storage, Sales: 223,844.
-
-3. Line Chart
-   - Columns: MONTH(Order Date); Rows: SUM(Sales).
-
-4. Heat map (filled map)
-   - Columns: Longitude (generated); Rows: Latitude (generated).
-   - Marks: Color = SUM(Sales); Detail = Category, State.
-   - Darker shades show states with higher sales (e.g. California, New York, Texas).
-</pre>
-
-<pre id="practical-12">
-Practical No. 12
-Aim: Create row level calculation in Tableau.
-(No code - Tableau steps)
-
-Steps:
-1. Create a new sheet &gt; Drag a few fields in the Rows and Columns sections.
-2. On the right hand side of the data pane search bar &gt; click on drop down arrow &gt; Create Calculated Field.
-3. Name the field and write the calculation required, e.g.: profit / quantity.
-4. Drag the created Calculated Field onto Rows, Columns or Detail in the Marks card.
-
-See the change and calculation: the calculated field performs row-wise on the sheet.
-
-Calculated Field:
-   Name: Profit by quantity
-   Formula: [Profit]/[Quantity]
-   ("The calculation is valid.")
-
-Result:
-   Columns: SUM(Sales), SUM(Profit by quantity); Rows: Sub-Category; Filters: Order ID.
-   Two bar charts side by side - Sales and Profit by quantity per sub-category.
-</pre>
-
-<pre id="practical-13">
-Practical No. 13
-Aim: Create Dashboard and Storytelling using Tableau.
-(No code - Tableau steps)
-
-=== Designing Dashboard ===
-Build required views that will form the basis of the dashboard.
-
-1. Create a bar chart showing profit by category.
-   - Create a new sheet.
-   - Drag Category field in Rows shelf and Profit field in Columns shelf. It will create a bar
-     chart which shows profit by category.
-   - Sort the categories in descending order by the sum of profit.
-   - Add the Department field to Filters and show a filter. To accomplish this, use the drop-down
-     menu of the Department field in the data pane and select Show Filter.
-   - Name the sheet "Overall Profit by Category".
-
-2. Create a bar chart showing profit by item.
-   - Create a new sheet.
-   - Drag Sub-Category (item) field in Rows shelf and Profit field in Columns shelf. It will
-     create a bar chart which shows profit by item.
-   - Sort the sub-categories (item) in descending order by the sum of profit.
-   - Name the sheet "Overall Profit by Item".
-
-3. Create another sheet that displays a filled map of profit by state.
-   - Create a new sheet and name it "Profit by State".
-   - Double click on State field from Data pane and drag Profit to the Color tab in Marks section.
-
-4. Create one final sheet to show when profits were made or lost.
-   - Create a blank sheet.
-   - Right click on Order Date &gt; convert to Continuous &gt; drag and drop to Columns.
-   - Right click on the Order Date field in the Columns section &gt; choose the Quarter option
-     (e.g. "Q2 2015" or something similar).
-   - Drag Profit field to Rows.
-
-=== Creating the Dashboard framework ===
-At this point, we have all of the necessary views to achieve the objectives for our dashboard.
-Now, all that remains is to arrange them and enable the interactivity that's required to
-effectively tell the story:
-
-1. Create a new dashboard by clicking the New Dashboard tab to the right of all existing worksheet
-   tabs or by selecting Dashboard | New Dashboard from the menu.
-2. Rename the new dashboard as "Is Least Profitable Always Unprofitable?".
-3. At the bottom of the left sidebar, check Show dashboard title.
-4. Add the views to the dashboard by dragging them from the Dashboard pane of the left sidebar and
-   dropping them into the dashboard canvas. Arrange them: Overall Profit By Category and
-   Top 10 Least Profitable Items on top; Profit by State and Profit Trend below.
-   After adding views, take some time to reposition and resize various elements and views.
-5. Use the drop-down menu on the Department filter and change the control to a Single Value (dropdown).
-6. You'll notice that changing the value of the filter only changes the Overall Profit by Category
-   view. You can adjust which views the filter applies to by using the drop-down menu.
-   Select Apply to Worksheets | All Using This Data Source.
-7. From the left sidebar, drag and drop a Text object above Overall Profit by Category and enter
-   the following instructions:
-      1. Select a Department from the dropdown
-      2. Select a category below
-      3. Select an Item below
-8. Using the grip, move the Department filter immediately above the Top 10 Least Profitable Items view.
-9. Size the text object to align the Top 10 view with the Overall view.
-10. Move the Profit color legend below the Profit by State view.
-11. Use the drop-down menu of Overall Profit by Category to Fit | Entire View. This will ensure
-    that all of the categories are visible without the need for a scrollbar.
-12. Additionally, fit the Top 10 Least Profitable Items to Entire View.
-
-=== Implementing actions to guide the story ===
-To enable interactivity, we'll use actions.
-
-1. Click the Use as Filter button on the Overall Profit by Category view. This will cause the view
-   to be used as an interactive filter for the entire dashboard. That is, when the user selects a
-   bar, all other views will be filtered based on the selection.
-2. From the main menu, select Dashboard | Actions. You'll see a list containing one action named
-   Filter 1 (generated). This is the action that was created when you selected Use as Filter previously.
-3. Click the Add Action &gt; button and select Filter. The resulting dialog gives you options for
-   selecting the source and target, as well as additional options for the action.
-4. Here, we want an action that filters everything except the Overall Profit by Category view when
-   the user selects an item. In the Add Filter Action dialog, set Source Sheets to Top 10 Least
-   Profitable Items, and Target Sheets to Profit by State and Profit Trend. Make sure that the
-   action is set to run on Select. Name the filter "Filter by Item", and then click OK on this
-   dialog. Do the same on the Actions dialog.
-
-You now have three filters (two are actions) that drive the dashboard:
- - Selecting a Department from the drop-down will filter the entire dashboard (and actually all
-   views in the workbook as you set it to filter every view using the data source).
- - Selecting a Category (clicking a bar or header) will filter the entire dashboard to that selection.
- - Selecting an Item (clicking a bar or header) will filter the Profit by State and Profit Trend views.
-
-Experiment with the filters and actions to see how your dashboard functions.
-</pre>
-
-</body>
-</html>
+&lt;nav&gt;
+    &lt;a href="/"&gt;Home&lt;/a&gt;
+    &lt;a href="/Abou
